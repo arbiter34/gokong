@@ -54,7 +54,6 @@ type Routes struct {
 }
 
 type RouteQueryString struct {
-	Offset int
 	Size   int
 }
 
@@ -123,7 +122,7 @@ func (routeClient *RouteClient) List(query *RouteQueryString) ([]*Route, error) 
 	}
 
 	for {
-		r, body, errs := newGet(routeClient.config, routeClient.config.HostAddress+RoutesPath).Query(query).End()
+		r, body, errs := newGet(routeClient.config, routeClient.config.HostAddress+RoutesPath).Query(*query).End()
 		if errs != nil {
 			return nil, fmt.Errorf("could not get the route, error: %v", errs)
 		}
@@ -142,8 +141,6 @@ func (routeClient *RouteClient) List(query *RouteQueryString) ([]*Route, error) 
 		if data.Next == "" {
 			break
 		}
-
-		query.Offset += query.Size
 	}
 
 	return routes, nil

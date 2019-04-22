@@ -44,7 +44,6 @@ type Services struct {
 }
 
 type ServiceQueryString struct {
-	Offset int
 	Size   int
 }
 
@@ -142,7 +141,7 @@ func (serviceClient *ServiceClient) GetServices(query *ServiceQueryString) ([]*S
 	}
 
 	for {
-		r, body, errs := newGet(serviceClient.config, serviceClient.config.HostAddress+ServicesPath).Query(query).End()
+		r, body, errs := newGet(serviceClient.config, serviceClient.config.HostAddress+ServicesPath).Query(*query).End()
 		if errs != nil {
 			return nil, fmt.Errorf("could not get the service, error: %v", errs)
 		}
@@ -161,8 +160,6 @@ func (serviceClient *ServiceClient) GetServices(query *ServiceQueryString) ([]*S
 		if data.Next == nil || *data.Next == "" {
 			break
 		}
-
-		query.Offset += query.Size
 	}
 
 	return services, nil
