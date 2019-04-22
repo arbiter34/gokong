@@ -157,9 +157,7 @@ func (serviceClient *ServiceClient) GetServices(query *ServiceQueryString) ([]*S
 
 		services = append(services, data.Data...)
 
-		if data.Next == nil || *data.Next == "" {
-			break
-		}
+		break
 	}
 
 	return services, nil

@@ -138,9 +138,7 @@ func (routeClient *RouteClient) List(query *RouteQueryString) ([]*Route, error) 
 
 		routes = append(routes, data.Data...)
 
-		if data.Next == "" {
-			break
-		}
+		break
 	}
 
 	return routes, nil
